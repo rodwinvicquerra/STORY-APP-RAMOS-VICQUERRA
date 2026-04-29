@@ -48,6 +48,12 @@ class AppDurations {
   static const Duration endingTransitionDuration = Duration(milliseconds: 700);
   static const Duration endingSoundDelay = Duration(milliseconds: 800);
   static const Duration videoFadeAnimation = Duration(milliseconds: 400);
+  
+  // UI Feedback durations
+  static const Duration hoverAnimationDuration = Duration(milliseconds: 200);
+  static const Duration toastDuration = Duration(milliseconds: 2000);
+  static const Duration skeletonPulseDuration = Duration(milliseconds: 1500);
+  static const Duration confettiDuration = Duration(milliseconds: 3000);
 }
 
 // Asset Paths
@@ -156,18 +162,43 @@ class AppStrings {
 
 // Sizing and Spacing
 class AppSizes {
+  // Border radius
   static const double buttonBorderRadius = 12.0;
   static const double cardBorderRadius = 16.0;
   static const double largeCardBorderRadius = 18.0;
-  static const double appBarHeight = 56.0;
-  static const double iconSize = 48.0;
-  static const double smallIconSize = 24.0;
+  
+  // Spacing scale (8px, 16px, 24px, 32px)
+  static const double spacingXs = 8.0;
+  static const double spacingSm = 16.0;
+  static const double spacingMd = 24.0;
+  static const double spacingLg = 32.0;
+  
+  // Legacy padding names (mapped to new scale)
   static const double paddingSmall = 8.0;
   static const double paddingMedium = 16.0;
   static const double paddingLarge = 24.0;
-  static const double cardElevation = 6.0;
+  
+  // Heights and sizes
+  static const double appBarHeight = 56.0;
+  static const double buttonMinHeight = 48.0;
+  static const double buttonPadding = 16.0;
+  
+  // Icon sizes
+  static const double iconSize = 48.0;
+  static const double smallIconSize = 24.0;
   static const double usbIconSize = 90.0;
   static const double endingIconSize = 80.0;
+  
+  // Card elevation hierarchy
+  static const double cardElevationLow = 2.0;
+  static const double cardElevationMedium = 4.0;
+  static const double cardElevationHigh = 8.0;
+  static const double cardElevation = 6.0;
+  
+  // Responsive breakpoints
+  static const double mobileMaxWidth = 600.0;
+  static const double tabletMinWidth = 600.0;
+  static const double desktopMinWidth = 1200.0;
 }
 
 // Progress Tracking
@@ -185,8 +216,16 @@ class AppLetterSpacing {
   static const double storyText = 0.2;
 }
 
-// Font Sizes
+// Font Sizes (Typography Scale)
 class AppFontSizes {
+  // Typography scale (12, 14, 16, 20, 28)
+  static const double small = 12.0;
+  static const double body = 14.0;
+  static const double subtitle = 16.0;
+  static const double title = 20.0;
+  static const double heading = 28.0;
+  
+  // Legacy names (mapped to scale)
   static const double appBarTitleSize = 14.0;
   static const double splashTitleSmall = 26.0;
   static const double splashTitleLarge = 34.0;

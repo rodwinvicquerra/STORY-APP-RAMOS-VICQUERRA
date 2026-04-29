@@ -15,17 +15,17 @@ class StoryCard extends StatelessWidget {
       builder: (context, settings, _) {
         return Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.paddingMedium,
-            vertical: AppSizes.paddingSmall,
+            horizontal: AppSizes.spacingMd,
+            vertical: AppSizes.spacingXs,
           ),
           child: Card(
             color: AppColors.surfaceLight,
-            elevation: AppSizes.cardElevation,
+            elevation: AppSizes.cardElevationMedium,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppSizes.cardBorderRadius),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.all(AppSizes.spacingMd),
               child: SingleChildScrollView(
                 child: Text(
                   text,
@@ -38,8 +38,8 @@ class StoryCard extends StatelessWidget {
                 ),
               ),
             ),
-          );
-        };
+          ),
+        );
       },
     );
   }

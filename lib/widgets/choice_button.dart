@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:missing_flash_drive/constants/app_constants.dart';
 
 class ChoiceButton extends StatefulWidget {
@@ -42,7 +43,10 @@ class _ChoiceButtonState extends State<ChoiceButton>
     super.dispose();
   }
 
-  void _onTapDown(TapDownDetails _) => _controller.forward();
+  void _onTapDown(TapDownDetails _) {
+    HapticFeedback.lightImpact();
+    _controller.forward();
+  }
 
   void _onTapUp(TapUpDetails _) async {
     await _controller.reverse();
@@ -64,8 +68,8 @@ class _ChoiceButtonState extends State<ChoiceButton>
 
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppSizes.paddingMedium,
-        vertical: 6.0,
+        horizontal: AppSizes.spacingMd,
+        vertical: AppSizes.spacingXs,
       ),
       child: GestureDetector(
         onTapDown: _onTapDown,
@@ -79,13 +83,14 @@ class _ChoiceButtonState extends State<ChoiceButton>
           ),
           child: Container(
             width: double.infinity,
+            constraints: const BoxConstraints(minHeight: AppSizes.buttonMinHeight),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.45),
@@ -94,7 +99,10 @@ class _ChoiceButtonState extends State<ChoiceButton>
                 ),
               ],
             ),
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+            padding: const EdgeInsets.symmetric(
+              vertical: AppSizes.buttonPadding,
+              horizontal: AppSizes.spacingSm,
+            ),
             child: Text(
               widget.label,
               textAlign: TextAlign.center,

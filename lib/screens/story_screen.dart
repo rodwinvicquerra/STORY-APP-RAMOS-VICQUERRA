@@ -156,7 +156,7 @@ class _StoryScreenState extends State<StoryScreen>
                 child: FadeTransition(
                   opacity: _imageFadeAnim,
                   child: SizedBox(
-                    height: 200,
+                    height: 220,
                     width: double.infinity,
                     child: FractionallySizedBox(
                       widthFactor: 0.9,

@@ -188,11 +188,14 @@ class _StoryScreenState extends State<StoryScreen>
   @override
   Widget build(BuildContext context) {
     final choices = _brain.getChoices();
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth >= AppSizes.tabletMinWidth;
+    final isMobile = screenWidth < AppSizes.tabletMinWidth;
 
     return Scaffold(
-      backgroundColor: AppColors.primaryDark,
+      backgroundColor: const Color(0xFF0D0D0D),
       appBar: AppBar(
-        backgroundColor: AppColors.primaryDarker,
+        backgroundColor: const Color(0xFF1A1A2E),
         elevation: 0,
         title: Text(
           AppStrings.appBarTitle,
@@ -221,88 +224,219 @@ class _StoryScreenState extends State<StoryScreen>
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Progress Tracker
-            Padding(
-              padding: const EdgeInsets.all(AppSizes.paddingMedium),
-              child: ProgressTracker(brain: _brain),
-            ),
+        child: isMobile ? _buildMobileLayout(choices) : _buildDesktopLayout(choices),
+      ),
+    );
+  }
 
-            // Scene Image/Video
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSizes.paddingMedium,
-                8,
-                AppSizes.paddingMedium,
-                AppSizes.paddingSmall,
-              ),
-              child: Card(
-                color: AppColors.primaryDarker,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(AppSizes.largeCardBorderRadius),
-                  side: BorderSide(
-                    color: _getSceneAccent().withValues(alpha: 0.4),
-                    width: 1.5,
-                  ),
+  Widget _buildMobileLayout(List<String> choices) {
+    return Column(
+      children: [
+        // Progress Tracker
+        Padding(
+          padding: const EdgeInsets.all(AppSizes.spacingMd),
+          child: ProgressTracker(brain: _brain),
+        ),
+
+        // Scene Image/Video - Mobile
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSizes.spacingMd,
+            AppSizes.spacingXs,
+            AppSizes.spacingMd,
+            AppSizes.spacingMd,
+          ),
+          child: _buildImageCard(height: 240),
+        ),
+
+        // Story Text
+        Expanded(
+          flex: 3,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacingMd),
+            child: StoryCard(text: _brain.getStoryText()),
+          ),
+        ),
+
+        // Choices - Mobile
+        Expanded(
+          flex: 2,
+          child: _buildChoicesList(choices),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDesktopLayout(List<String> choices) {
+    return Padding(
+      padding: const EdgeInsets.all(AppSizes.spacingMd),
+      child: Row(
+        children: [
+          // Left Section - Text Content
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Progress Tracker
+                Padding(
+                  padding: const EdgeInsets.only(bottom: AppSizes.spacingMd),
+                  child: ProgressTracker(brain: _brain),
                 ),
-                clipBehavior: Clip.antiAlias,
-                elevation: 8,
-                child: FadeTransition(
-                  opacity: _imageFadeAnim,
-                  child: SizedBox(
-                    height: 220,
-                    width: double.infinity,
-                    child: _videoReady && _videoController != null
-                        ? AspectRatio(
-                            aspectRatio: _videoController!.value.aspectRatio,
-                            child: VideoPlayer(_videoController!),
-                          )
-                        : FractionallySizedBox(
-                            widthFactor: 0.9,
-                            child: Image.asset(
-                              _brain.getImagePath(),
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                  ),
+
+                // Story Content Card
+                Expanded(
+                  child: _buildStoryContentCard(choices),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(width: AppSizes.spacingLg),
+
+          // Right Section - Image
+          Expanded(
+            flex: 1,
+            child: _buildImageCard(height: double.infinity),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStoryContentCard(List<String> choices) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A2E),
+        borderRadius: BorderRadius.circular(AppSizes.largeCardBorderRadius),
+        border: Border.all(
+          color: AppColors.accentRed.withValues(alpha: 0.3),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.accentRed.withValues(alpha: 0.2),
+            blurRadius: 20,
+            spreadRadius: 2,
+          ),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.5),
+            blurRadius: 30,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Story Text
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSizes.spacingMd),
+              child: SingleChildScrollView(
+                child: Consumer<AppSettings>(
+                  builder: (context, settings, _) {
+                    return Text(
+                      _brain.getStoryText(),
+                      style: GoogleFonts.nunito(
+                        color: AppColors.textLight,
+                        fontSize: AppFontSizes.storyTextSize * settings.textSizeMultiplier,
+                        height: 1.8,
+                        letterSpacing: AppLetterSpacing.storyText,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
+          ),
 
-            // Story Text
-            Expanded(
-              flex: 4,
-              child: StoryCard(text: _brain.getStoryText()),
+          // Divider
+          Container(
+            height: 1,
+            margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacingMd),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  AppColors.accentRed.withValues(alpha: 0.3),
+                  Colors.transparent,
+                ],
+              ),
             ),
+          ),
 
-            // Choices
-            Expanded(
-              flex: 3,
-              child: choices.isEmpty
-                  ? Center(
-                      child: Text(
-                        'Tap the back button to continue...',
-                        style: GoogleFonts.nunito(
-                          color: AppColors.textDimmed.withValues(alpha: 0.6),
-                          fontSize: 13,
-                        ),
-                      ),
-                    )
-                  : ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      itemCount: choices.length,
-                      itemBuilder: (context, i) => ChoiceButton(
-                        label: choices[i],
-                        index: i,
-                        onTap: () => _makeChoice(i),
-                      ),
-                    ),
-            ),
-          ],
+          // Choices
+          Expanded(
+            flex: 1,
+            child: _buildChoicesList(choices),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImageCard({required double? height}) {
+    return Container(
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSizes.largeCardBorderRadius),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.accentRed.withValues(alpha: 0.25),
+            blurRadius: 25,
+            spreadRadius: 5,
+          ),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.6),
+            blurRadius: 35,
+            offset: const Offset(0, 15),
+          ),
+        ],
+      ),
+      child: FadeTransition(
+        opacity: _imageFadeAnim,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppSizes.largeCardBorderRadius),
+          child: Container(
+            color: AppColors.primaryDarker,
+            child: _videoReady && _videoController != null
+                ? VideoPlayer(_videoController!)
+                : Image.asset(
+                    _brain.getImagePath(),
+                    fit: BoxFit.cover,
+                  ),
+          ),
         ),
       ),
     );
+  }
+
+  Widget _buildChoicesList(List<String> choices) {
+    return choices.isEmpty
+        ? Center(
+            child: Text(
+              'Tap the back button to continue...',
+              style: GoogleFonts.nunito(
+                color: AppColors.textDimmed.withValues(alpha: 0.6),
+                fontSize: AppFontSizes.small,
+              ),
+            ),
+          )
+        : ListView.builder(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSizes.spacingMd,
+              vertical: AppSizes.spacingXs,
+            ),
+            itemCount: choices.length,
+            itemBuilder: (context, i) => Padding(
+              padding: const EdgeInsets.only(bottom: AppSizes.spacingXs),
+              child: ChoiceButton(
+                label: choices[i],
+                index: i,
+                onTap: () => _makeChoice(i),
+              ),
+            ),
+          );
   }
 }

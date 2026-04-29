@@ -428,7 +428,6 @@ class _EndingScreenState extends State<EndingScreen>
     );
   }
 }
-}
 
 class _EndingConfig {
   final Color bg1, bg2, accent, labelColor;

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:missing_flash_drive/constants/app_constants.dart';
+import 'package:missing_flash_drive/providers/app_settings.dart';
 import 'story_screen.dart';
+import 'settings_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -186,6 +189,7 @@ class _SplashScreenState extends State<SplashScreen>
                         scale: _pulseAnim,
                         child: GestureDetector(
                           onTap: () {
+                            final settings = context.read<AppSettings>();
                             Navigator.pushReplacement(
                               context,
                               PageRouteBuilder(
@@ -196,8 +200,9 @@ class _SplashScreenState extends State<SplashScreen>
                                   opacity: anim,
                                   child: child,
                                 ),
-                                transitionDuration:
-                                    const Duration(milliseconds: 600),
+                                transitionDuration: settings.skipAnimations
+                                    ? Duration.zero
+                                    : const Duration(milliseconds: 600),
                               ),
                             );
                           },
@@ -234,6 +239,22 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                       ),
                       const Spacer(flex: 1),
+                      // Settings button
+                      TextButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SettingsScreen(),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.settings_rounded),
+                        label: const Text('Settings'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.accentBlue,
+                        ),
+                      ),
                       // AI disclaimer
                       Text(
                         '🤖 Scene images are AI-generated',

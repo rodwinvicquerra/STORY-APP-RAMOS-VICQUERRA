@@ -4,6 +4,7 @@ import 'scene.dart';
 class StoryBrain {
   int _currentScene = 0;
   final Set<int> _visitedScenes = {0}; // Track visited scenes for completion
+  final List<int> _pathsTaken = [0]; // Track path decisions
 
   static final List<Scene> _scenes = [
     // Scene 0 — Start (Decision Point 1)
@@ -158,11 +159,15 @@ class StoryBrain {
   /// Get number of scenes visited
   int getScenesVisited() => _visitedScenes.length;
 
+  /// Get the paths taken during this playthrough
+  List<int> getPathsTaken() => _pathsTaken;
+
   void nextScene(int choiceIndex) {
     final choices = _scenes[_currentScene].nextScenes;
     if (choiceIndex < choices.length) {
       _currentScene = choices[choiceIndex];
       _visitedScenes.add(_currentScene);
+      _pathsTaken.add(choiceIndex);
     }
   }
 
@@ -170,5 +175,7 @@ class StoryBrain {
     _currentScene = 0;
     _visitedScenes.clear();
     _visitedScenes.add(0);
+    _pathsTaken.clear();
+    _pathsTaken.add(0);
   }
 }

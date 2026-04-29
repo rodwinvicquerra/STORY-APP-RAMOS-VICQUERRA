@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:video_player/video_player.dart';
+import 'package:provider/provider.dart';
 import 'package:missing_flash_drive/constants/app_constants.dart';
+import 'package:missing_flash_drive/providers/app_settings.dart';
 import '../models/story_brain.dart';
 import '../widgets/choice_button.dart';
 import '../widgets/story_card.dart';
 import '../widgets/progress_tracker.dart';
 import 'ending_screen.dart';
+import 'settings_screen.dart';
 
 class StoryScreen extends StatefulWidget {
   const StoryScreen({super.key});
@@ -30,9 +33,13 @@ class _StoryScreenState extends State<StoryScreen>
   @override
   void initState() {
     super.initState();
+    final settings = context.read<AppSettings>();
+    
     _imageAnimController = AnimationController(
       vsync: this,
-      duration: AppDurations.imageFadeAnimation,
+      duration: settings.skipAnimations 
+          ? Duration.zero 
+          : AppDurations.imageFadeAnimation,
     );
     _imageFadeAnim = CurvedAnimation(
       parent: _imageAnimController,
@@ -45,7 +52,9 @@ class _StoryScreenState extends State<StoryScreen>
 
   Future<void> _startBgMusic() async {
     try {
+      final settings = context.read<AppSettings>();
       await _bgPlayer.setReleaseMode(ReleaseMode.loop);
+      await _bgPlayer.setVolume(settings.musicVolume);
       await _bgPlayer.stop();
       await _bgPlayer.play(AssetSource(AppAssets.bgMusic));
     } catch (e) {
@@ -104,10 +113,13 @@ class _StoryScreenState extends State<StoryScreen>
   }
 
   Future<void> _handleEnding() async {
+    final settings = context.read<AppSettings>();
+    
     // Play ending sound
     final AudioPlayer sfxPlayer = AudioPlayer();
     final type = _brain.getEndingType();
     try {
+      await sfxPlayer.setVolume(settings.sfxVolume);
       if (type == 'good') {
         await sfxPlayer.play(AssetSource(AppAssets.goodEndingSound));
       } else {
@@ -117,9 +129,21 @@ class _StoryScreenState extends State<StoryScreen>
       debugPrint('Error playing ending sound: $e');
     }
 
-    await Future.delayed(AppDurations.endingSoundDelay);
+    await Future.delayed(
+      settings.skipAnimations 
+          ? Duration.zero 
+          : AppDurations.endingSoundDelay,
+    );
 
     if (!mounted) return;
+
+    // Save playthrough
+    settings.savePlaythrough(
+      endingType: type,
+      scenesVisited: _brain.getScenesVisited(),
+      totalScenes: _brain.getTotalScenes(),
+      pathsTaken: _brain.getPathsTaken(),
+    );
 
     final result = await Navigator.push(
       context,
@@ -133,7 +157,9 @@ class _StoryScreenState extends State<StoryScreen>
           opacity: anim,
           child: child,
         ),
-        transitionDuration: AppDurations.endingTransitionDuration,
+        transitionDuration: settings.skipAnimations 
+            ? Duration.zero 
+            : AppDurations.endingTransitionDuration,
       ),
     );
 
@@ -182,6 +208,17 @@ class _StoryScreenState extends State<StoryScreen>
           icon: const Icon(Icons.home_rounded, color: AppColors.accentBlue),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_rounded, color: AppColors.accentBlue),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(

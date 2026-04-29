@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:missing_flash_drive/constants/app_constants.dart';
+import 'package:missing_flash_drive/providers/app_settings.dart';
 import 'splash_screen.dart';
+import 'settings_screen.dart';
 
 class EndingScreen extends StatefulWidget {
   final String endingType; // 'good', 'bad', 'neutral', 'weird'
@@ -307,6 +310,23 @@ class _EndingScreenState extends State<EndingScreen>
                           decoration: TextDecoration.underline,
                           decorationColor: Colors.white54,
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    // Settings button
+                    TextButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SettingsScreen(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.settings_rounded, size: 16),
+                      label: const Text('Settings'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.accentBlue,
                       ),
                     ),
                     const SizedBox(height: 12),

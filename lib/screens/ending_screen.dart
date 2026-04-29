@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:missing_flash_drive/constants/app_constants.dart';
 import 'splash_screen.dart';
 
 class EndingScreen extends StatefulWidget {
@@ -32,15 +33,15 @@ class _EndingScreenState extends State<EndingScreen>
     super.initState();
     _fadeCtrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: AppDurations.endingFadeAnimation,
     )..forward();
     _scaleCtrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: AppDurations.endingScaleAnimation,
     )..forward();
     _pulseCtrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
+      duration: AppDurations.endingPulseAnimation,
     )..repeat(reverse: true);
 
     _fadeAnim = CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeIn);
@@ -64,39 +65,39 @@ class _EndingScreenState extends State<EndingScreen>
     switch (widget.endingType) {
       case 'good':
         return _EndingConfig(
-          bg1: const Color(0xFF0A2A0F),
-          bg2: const Color(0xFF1B5E20),
-          accent: const Color(0xFF4CAF50),
+          bg1: AppColors.endingGoodBg1,
+          bg2: AppColors.endingGoodBg2,
+          accent: AppColors.endingGood,
           icon: Icons.emoji_events_rounded,
           label: 'GOOD ENDING',
-          labelColor: const Color(0xFF81C784),
+          labelColor: AppColors.endingGoodLight,
         );
       case 'bad':
         return _EndingConfig(
-          bg1: const Color(0xFF2A0A0A),
-          bg2: const Color(0xFF7F0000),
-          accent: const Color(0xFFF44336),
+          bg1: AppColors.endingBadBg1,
+          bg2: AppColors.endingBadBg2,
+          accent: AppColors.endingBad,
           icon: Icons.sentiment_very_dissatisfied_rounded,
           label: 'BAD ENDING',
-          labelColor: const Color(0xFFEF9A9A),
+          labelColor: AppColors.endingBadLight,
         );
       case 'weird':
         return _EndingConfig(
-          bg1: const Color(0xFF1A0A2A),
-          bg2: const Color(0xFF4A148C),
-          accent: const Color(0xFFCE93D8),
+          bg1: AppColors.endingWeirdBg1,
+          bg2: AppColors.endingWeirdBg2,
+          accent: AppColors.endingWeird,
           icon: Icons.auto_awesome_rounded,
           label: 'WEIRD ENDING',
-          labelColor: const Color(0xFFCE93D8),
+          labelColor: AppColors.endingWeird,
         );
       default: // neutral
         return _EndingConfig(
-          bg1: const Color(0xFF2A2200),
-          bg2: const Color(0xFF827717),
-          accent: const Color(0xFFFFC107),
+          bg1: AppColors.endingNeutralBg1,
+          bg2: AppColors.endingNeutralBg2,
+          accent: AppColors.endingNeutral,
           icon: Icons.sentiment_neutral_rounded,
           label: 'NEUTRAL ENDING',
-          labelColor: const Color(0xFFFFD54F),
+          labelColor: AppColors.endingNeutralLight,
         );
     }
   }
@@ -173,8 +174,8 @@ class _EndingScreenState extends State<EndingScreen>
                     ScaleTransition(
                       scale: _scaleAnim,
                       child: Container(
-                        width: 110,
-                        height: 110,
+                        width: AppSizes.endingIconSize,
+                        height: AppSizes.endingIconSize,
                         decoration: BoxDecoration(
                           color: cfg.accent.withValues(alpha: 0.15),
                           shape: BoxShape.circle,
@@ -228,7 +229,7 @@ class _EndingScreenState extends State<EndingScreen>
                         child: Text(
                           widget.endingMessage,
                           style: GoogleFonts.nunito(
-                            color: const Color(0xFFE0E0E0),
+                            color: AppColors.textLight,
                             fontSize: 15,
                             height: 1.6,
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:missing_flash_drive/constants/app_constants.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
@@ -9,7 +10,7 @@ void main() {
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Color(0xFF0F0F23),
+      systemNavigationBarColor: AppColors.primaryDarker,
     ),
   );
   runApp(const MissingFlashDriveApp());
@@ -21,39 +22,39 @@ class MissingFlashDriveApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'The Missing Flash Drive', // final
+      title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF1A1A2E),
+        scaffoldBackgroundColor: AppColors.primaryDark,
         colorScheme: const ColorScheme.dark(
-          primary: Color(0xFFE94560),
-          secondary: Color(0xFF0F3460),
-          surface: Color(0xFF16213E),
+          primary: AppColors.accentRed,
+          secondary: AppColors.surfaceMedium,
+          surface: AppColors.surfaceLight,
           onPrimary: Colors.white,
           onSecondary: Colors.white,
-          onSurface: Color(0xFFE0E0E0),
+          onSurface: AppColors.textLight,
         ),
         cardTheme: CardThemeData(
-          color: const Color(0xFF16213E),
-          elevation: 6,
+          color: AppColors.surfaceLight,
+          elevation: AppSizes.cardElevation,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppSizes.cardBorderRadius),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFE94560),
+            backgroundColor: AppColors.accentRed,
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
             ),
           ),
         ),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF0F0F23),
+          backgroundColor: AppColors.primaryDarker,
           elevation: 0,
-          iconTheme: IconThemeData(color: Color(0xFF90CAF9)),
+          iconTheme: IconThemeData(color: AppColors.accentBlue),
         ),
         useMaterial3: true,
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:missing_flash_drive/constants/app_constants.dart';
 import 'story_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,15 +26,15 @@ class _SplashScreenState extends State<SplashScreen>
 
     _fadeController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
+      duration: AppDurations.splashFadeAnimation,
     );
     _slideController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
+      duration: AppDurations.splashSlideAnimation,
     );
     _pulseController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: AppDurations.splashPulseAnimation,
     )..repeat(reverse: true);
 
     _fadeAnim = CurvedAnimation(parent: _fadeController, curve: Curves.easeIn);
@@ -47,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
 
-    Future.delayed(const Duration(milliseconds: 300), () {
+    Future.delayed(AppDurations.splashDelayBeforeStart, () {
       _fadeController.forward();
       _slideController.forward();
     });
@@ -64,26 +65,26 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF12122A),
+      backgroundColor: AppColors.splashBg,
       body: Stack(
         children: [
           // Background image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/splash_bg.png',
+              AppAssets.splashBgImage,
               fit: BoxFit.cover,
             ),
           ),
           // Dark overlay gradient
           Positioned.fill(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xCC1A1A2E),
-                    Color(0xF51A1A2E),
+                    AppColors.primaryDark.withValues(alpha: 0.8),
+                    AppColors.primaryDark.withValues(alpha: 0.96),
                   ],
                 ),
               ),
@@ -96,27 +97,29 @@ class _SplashScreenState extends State<SplashScreen>
               child: SlideTransition(
                 position: _slideAnim,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSizes.paddingLarge,
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Spacer(flex: 2),
                       // Flash drive icon
                       Container(
-                        width: 90,
-                        height: 90,
+                        width: AppSizes.usbIconSize,
+                        height: AppSizes.usbIconSize,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE94560).withValues(alpha: 0.15),
+                          color: AppColors.accentRed.withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: const Color(0xFFE94560),
+                            color: AppColors.accentRed,
                             width: 2,
                           ),
                         ),
                         child: const Icon(
                           Icons.usb_rounded,
-                          size: 48,
-                          color: Color(0xFFE94560),
+                          size: AppSizes.iconSize,
+                          color: AppColors.accentRed,
                         ),
                       ),
                       const SizedBox(height: 28),
@@ -124,10 +127,10 @@ class _SplashScreenState extends State<SplashScreen>
                       Text(
                         'THE MISSING',
                         style: GoogleFonts.cinzel(
-                          color: const Color(0xFFE94560),
-                          fontSize: 26,
+                          color: AppColors.accentRed,
+                          fontSize: AppFontSizes.splashTitleSmall,
                           fontWeight: FontWeight.w700,
-                          letterSpacing: 6,
+                          letterSpacing: AppLetterSpacing.splashTitle,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -136,19 +139,19 @@ class _SplashScreenState extends State<SplashScreen>
                         'FLASH DRIVE',
                         style: GoogleFonts.cinzel(
                           color: Colors.white,
-                          fontSize: 34,
+                          fontSize: AppFontSizes.splashTitleLarge,
                           fontWeight: FontWeight.w900,
-                          letterSpacing: 4,
+                          letterSpacing: AppLetterSpacing.splashSubtitle,
                         ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 14),
                       // Subtitle
                       Text(
-                        'A Choose Your Own Adventure Story',
+                        AppStrings.subtitle,
                         style: GoogleFonts.nunito(
-                          color: const Color(0xFF90CAF9),
-                          fontSize: 14,
+                          color: AppColors.accentBlue,
+                          fontSize: AppFontSizes.splashSubtitleSize,
                           letterSpacing: 1.2,
                         ),
                         textAlign: TextAlign.center,
@@ -156,12 +159,12 @@ class _SplashScreenState extends State<SplashScreen>
                       const Spacer(flex: 2),
                       // Story teaser
                       Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppSizes.paddingMedium),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF16213E),
+                          color: AppColors.surfaceLight,
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color: const Color(0xFF0F3460),
+                            color: AppColors.surfaceMedium,
                             width: 1,
                           ),
                         ),
@@ -210,7 +213,8 @@ class _SplashScreenState extends State<SplashScreen>
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFFE94560).withValues(alpha: 0.5),
+                                  color: AppColors.accentRed
+                                      .withValues(alpha: 0.5),
                                   blurRadius: 20,
                                   offset: const Offset(0, 6),
                                 ),
@@ -234,7 +238,7 @@ class _SplashScreenState extends State<SplashScreen>
                       Text(
                         '🤖 Scene images are AI-generated',
                         style: GoogleFonts.nunito(
-                          color: const Color(0xFF546E7A),
+                          color: AppColors.textDimmed.withValues(alpha: 0.6),
                           fontSize: 11,
                         ),
                       ),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:video_player/video_player.dart';
+import 'package:missing_flash_drive/constants/app_constants.dart';
 import '../models/story_brain.dart';
 import '../widgets/choice_button.dart';
 import '../widgets/story_card.dart';
+import '../widgets/progress_tracker.dart';
 import 'ending_screen.dart';
 
 class StoryScreen extends StatefulWidget {
@@ -20,13 +23,16 @@ class _StoryScreenState extends State<StoryScreen>
 
   late AnimationController _imageAnimController;
   late Animation<double> _imageFadeAnim;
+  
+  VideoPlayerController? _videoController;
+  bool _videoReady = false;
 
   @override
   void initState() {
     super.initState();
     _imageAnimController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: AppDurations.imageFadeAnimation,
     );
     _imageFadeAnim = CurvedAnimation(
       parent: _imageAnimController,
@@ -34,19 +40,48 @@ class _StoryScreenState extends State<StoryScreen>
     );
     _imageAnimController.forward();
     _startBgMusic();
+    _initializeVideo();
   }
 
   Future<void> _startBgMusic() async {
-    await _bgPlayer.setReleaseMode(ReleaseMode.loop);
-    await _bgPlayer.stop();
-    // play bg music
-    await _bgPlayer.play(AssetSource('audio/bg_music.mp3'));
+    try {
+      await _bgPlayer.setReleaseMode(ReleaseMode.loop);
+      await _bgPlayer.stop();
+      await _bgPlayer.play(AssetSource(AppAssets.bgMusic));
+    } catch (e) {
+      debugPrint('Error playing background music: $e');
+    }
+  }
+
+  Future<void> _initializeVideo() async {
+    try {
+      final videoPath = _brain.getVideoPath();
+      if (videoPath != null && videoPath.isNotEmpty) {
+        _videoController = VideoPlayerController.asset(videoPath);
+        await _videoController!.initialize();
+        await _videoController!.setLooping(true);
+        await _videoController!.play();
+        if (mounted) {
+          setState(() => _videoReady = true);
+        }
+      }
+    } catch (e) {
+      debugPrint('Error initializing video: $e');
+      // Fallback to static image if video fails
+    }
+  }
+
+  Future<void> _disposeVideo() async {
+    await _videoController?.dispose();
+    _videoController = null;
+    _videoReady = false;
   }
 
   @override
   void dispose() {
     _bgPlayer.dispose();
     _imageAnimController.dispose();
+    _disposeVideo();
     super.dispose();
   }
 
@@ -54,6 +89,10 @@ class _StoryScreenState extends State<StoryScreen>
     setState(() {
       _brain.nextScene(index);
     });
+
+    // Dispose old video and initialize new one if exists
+    _disposeVideo();
+    _initializeVideo();
 
     // Animate image transition
     _imageAnimController.reset();
@@ -68,13 +107,17 @@ class _StoryScreenState extends State<StoryScreen>
     // Play ending sound
     final AudioPlayer sfxPlayer = AudioPlayer();
     final type = _brain.getEndingType();
-    if (type == 'good') {
-      await sfxPlayer.play(AssetSource('audio/good_ending.mp3'));
-    } else {
-      await sfxPlayer.play(AssetSource('audio/bad_ending.mp3'));
+    try {
+      if (type == 'good') {
+        await sfxPlayer.play(AssetSource(AppAssets.goodEndingSound));
+      } else {
+        await sfxPlayer.play(AssetSource(AppAssets.badEndingSound));
+      }
+    } catch (e) {
+      debugPrint('Error playing ending sound: $e');
     }
 
-    await Future.delayed(const Duration(milliseconds: 800));
+    await Future.delayed(AppDurations.endingSoundDelay);
 
     if (!mounted) return;
 
@@ -90,7 +133,7 @@ class _StoryScreenState extends State<StoryScreen>
           opacity: anim,
           child: child,
         ),
-        transitionDuration: const Duration(milliseconds: 700),
+        transitionDuration: AppDurations.endingTransitionDuration,
       ),
     );
 
@@ -98,6 +141,8 @@ class _StoryScreenState extends State<StoryScreen>
       setState(() {
         _brain.restart();
       });
+      _disposeVideo();
+      _initializeVideo();
       _imageAnimController.reset();
       _imageAnimController.forward();
     }
@@ -107,11 +152,11 @@ class _StoryScreenState extends State<StoryScreen>
 
   Color _getSceneAccent() {
     final type = _brain.getEndingType();
-    if (type == 'good') return const Color(0xFF4CAF50);
-    if (type == 'bad') return const Color(0xFFF44336);
-    if (type == 'neutral') return const Color(0xFFFFC107);
-    if (type == 'weird') return const Color(0xFF9C27B0);
-    return const Color(0xFFE94560);
+    if (type == 'good') return AppColors.endingGood;
+    if (type == 'bad') return AppColors.endingBad;
+    if (type == 'neutral') return AppColors.endingNeutral;
+    if (type == 'weird') return AppColors.endingWeird;
+    return AppColors.accentRed;
   }
 
   @override
@@ -119,35 +164,47 @@ class _StoryScreenState extends State<StoryScreen>
     final choices = _brain.getChoices();
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A2E),
+      backgroundColor: AppColors.primaryDark,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F0F23),
+        backgroundColor: AppColors.primaryDarker,
         elevation: 0,
         title: Text(
-          'THE MISSING FLASH DRIVE',
+          AppStrings.appBarTitle,
           style: GoogleFonts.cinzel(
-            color: const Color(0xFFE94560),
-            fontSize: 14,
+            color: AppColors.accentRed,
+            fontSize: AppFontSizes.appBarTitleSize,
             fontWeight: FontWeight.w700,
-            letterSpacing: 2,
+            letterSpacing: AppLetterSpacing.appBarTitle,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.home_rounded, color: Color(0xFF90CAF9)),
+          icon: const Icon(Icons.home_rounded, color: AppColors.accentBlue),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SafeArea(
         child: Column(
           children: [
-            // Scene Image
+            // Progress Tracker
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+              padding: const EdgeInsets.all(AppSizes.paddingMedium),
+              child: ProgressTracker(brain: _brain),
+            ),
+
+            // Scene Image/Video
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSizes.paddingMedium,
+                8,
+                AppSizes.paddingMedium,
+                AppSizes.paddingSmall,
+              ),
               child: Card(
-                color: const Color(0xFF0F0F23),
+                color: AppColors.primaryDarker,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius:
+                      BorderRadius.circular(AppSizes.largeCardBorderRadius),
                   side: BorderSide(
                     color: _getSceneAccent().withValues(alpha: 0.4),
                     width: 1.5,
@@ -160,13 +217,18 @@ class _StoryScreenState extends State<StoryScreen>
                   child: SizedBox(
                     height: 220,
                     width: double.infinity,
-                    child: FractionallySizedBox(
-                      widthFactor: 0.9,
-                      child: Image.asset(
-                        _brain.getImagePath(),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    child: _videoReady && _videoController != null
+                        ? AspectRatio(
+                            aspectRatio: _videoController!.value.aspectRatio,
+                            child: VideoPlayer(_videoController!),
+                          )
+                        : FractionallySizedBox(
+                            widthFactor: 0.9,
+                            child: Image.asset(
+                              _brain.getImagePath(),
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                   ),
                 ),
               ),
@@ -186,7 +248,7 @@ class _StoryScreenState extends State<StoryScreen>
                       child: Text(
                         'Tap the back button to continue...',
                         style: GoogleFonts.nunito(
-                          color: const Color(0xFF546E7A),
+                          color: AppColors.textDimmed.withValues(alpha: 0.6),
                           fontSize: 13,
                         ),
                       ),

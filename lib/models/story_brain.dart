@@ -1,60 +1,40 @@
+import 'package:missing_flash_drive/constants/app_constants.dart';
 import 'scene.dart';
 
 class StoryBrain {
   int _currentScene = 0;
+  final Set<int> _visitedScenes = {0}; // Track visited scenes for completion
 
   static final List<Scene> _scenes = [
     // Scene 0 — Start (Decision Point 1)
     Scene(
-      storyText:
-          '📱 Oh no! It\'s 4:30 PM and your final IT project is due at 5:00 PM.\n\n'
-          'You reach into your bag... YOUR FLASH DRIVE IS GONE! 😱\n\n'
-          'You start to panic. You had it this morning but now it\'s nowhere to be found.\n\n'
-          'Where will you look first?',
-      imagePath: 'assets/images/scene_0.png',
-      choices: ['🏫 Go to the Library', '🍜 Go to the Cafeteria'],
+      storyText: AppStrings.scene0Text,
+      imagePath: AppAssets.scene0Image,
+      choices: [AppStrings.scene0Choice1, AppStrings.scene0Choice2],
       nextScenes: [1, 2],
     ),
 
     // Scene 1 — Library (Decision Point 2)
     Scene(
-      storyText:
-          '📚 You rush into the quiet library. The librarian looks up and whispers,\n'
-          '"Looking for something? I saw a student near the dark hallway earlier..."\n\n'
-          'You notice the hallway she pointed to — it\'s dark and eerie.\n'
-          'But you also see the table where you studied yesterday morning!\n\n'
-          'What do you do?',
-      imagePath: 'assets/images/scene_1.png',
-      choices: [
-        '🔦 Walk into the dark hallway',
-        '🪑 Check the table where I sat',
-      ],
+      storyText: AppStrings.scene1Text,
+      imagePath: AppAssets.scene1Image,
+      choices: [AppStrings.scene1Choice1, AppStrings.scene1Choice2],
       nextScenes: [3, 4],
     ),
 
     // Scene 2 — Cafeteria (Decision Point 3)
     Scene(
-      storyText:
-          '🍽️ The cafeteria is loud and packed with students.\n\n'
-          'You spot your classmate MARK sitting alone, eating pancit canton.\n'
-          'He was your project partner yesterday — he might know something!\n\n'
-          'But you\'re also really hungry and the arroz caldo smells amazing...\n\n'
-          'What will you do?',
-      imagePath: 'assets/images/scene_2.png',
-      choices: ['🙋 Ask Mark for help', '🍚 Ignore Mark and buy a snack'],
+      storyText: AppStrings.scene2Text,
+      imagePath: AppAssets.scene2Image,
+      choices: [AppStrings.scene2Choice1, AppStrings.scene2Choice2],
       nextScenes: [5, 6],
     ),
 
     // Scene 3 — Dark Hallway (Decision Point 4)
     Scene(
-      storyText:
-          '😰 The hallway is dark and cold. Your footsteps echo with every step.\n\n'
-          'Suddenly, at the end of the hallway, you see a GLOWING PORTAL!\n'
-          'It pulses with blue and purple light, humming softly.\n\n'
-          'A whisper in the air says: "Your destiny lies beyond..."\n\n'
-          'Do you dare enter? Or run back to safety?',
-      imagePath: 'assets/images/scene_3.png',
-      choices: ['✨ Enter the glowing portal', '🏃 Run back to safety'],
+      storyText: AppStrings.scene3Text,
+      imagePath: AppAssets.scene3Image,
+      choices: [AppStrings.scene3Choice1, AppStrings.scene3Choice2],
       nextScenes: [7, 8],
     ),
 
@@ -66,12 +46,11 @@ class StoryBrain {
           'You grab it, shove it in your laptop, and SPRINT to your professor\'s room.\n\n'
           '"Submitted with 3 minutes to spare!" your professor smiles.\n\n'
           'You did it! You saved your grade! 🏆',
-      imagePath: 'assets/images/scene_4.png',
+      imagePath: AppAssets.scene4Image,
       isEnding: true,
       endingType: 'good',
-      endingTitle: 'Submitted On Time!',
-      endingMessage:
-          'You found your flash drive under the library table and submitted your project with 3 minutes to spare. Your hard work paid off!',
+      endingTitle: AppStrings.scene4Title,
+      endingMessage: AppStrings.scene4Message,
     ),
 
     // Scene 5 — Mark returns it (Ending: Good 2)
@@ -84,12 +63,11 @@ class StoryBrain {
           'You forgive him immediately, plug it into your laptop, and submit with\n'
           '5 minutes to spare!\n\n'
           '"We\'re still best friends," you tell him. 🤝',
-      imagePath: 'assets/images/scene_5.png',
+      imagePath: AppAssets.scene5Image,
       isEnding: true,
       endingType: 'good',
-      endingTitle: 'Mark Saved the Day!',
-      endingMessage:
-          'Your classmate Mark had accidentally taken your flash drive. He returned it and you submitted your project just in time!',
+      endingTitle: AppStrings.scene5Title,
+      endingMessage: AppStrings.scene5Message,
     ),
 
     // Scene 6 — Wasted time (Ending: Bad)
@@ -102,12 +80,11 @@ class StoryBrain {
           'Your professor shakes his head sadly.\n'
           '"You\'ll have to retake the subject next semester."\n\n'
           'The snack was NOT worth it. 💀',
-      imagePath: 'assets/images/scene_6.png',
+      imagePath: AppAssets.scene6Image,
       isEnding: true,
       endingType: 'bad',
-      endingTitle: 'You Missed the Deadline!',
-      endingMessage:
-          'You wasted too much time buying snacks and missed the 5:00 PM deadline. The project was not accepted.',
+      endingTitle: AppStrings.scene6Title,
+      endingMessage: AppStrings.scene6Message,
     ),
 
     // Scene 7 — Enter portal (Ending: Weird/Bad)
@@ -120,12 +97,11 @@ class StoryBrain {
           '"Wait, what about my IT project?!"\n\n'
           'The fairy shrugs. "What\'s an IT project?"\n\n'
           'You failed IT class but became a legendary warrior. ⚔️',
-      imagePath: 'assets/images/scene_7.png',
+      imagePath: AppAssets.scene7Image,
       isEnding: true,
       endingType: 'weird',
-      endingTitle: 'Transported to Another Dimension!',
-      endingMessage:
-          'You stepped through the portal and got transported to a fantasy kingdom. You became a warrior... but failed IT class.',
+      endingTitle: AppStrings.scene7Title,
+      endingMessage: AppStrings.scene7Message,
     ),
 
     // Scene 8 — Run away (Ending: Neutral)
@@ -138,12 +114,11 @@ class StoryBrain {
           '"Sir, I lost my flash drive. I\'m very sorry."\n\n'
           'He replies: "Okay. Retake the subject next term."\n\n'
           'At least you\'re still in this dimension. 🤷',
-      imagePath: 'assets/images/scene_8.png',
+      imagePath: AppAssets.scene8Image,
       isEnding: true,
       endingType: 'neutral',
-      endingTitle: 'Lost Forever...',
-      endingMessage:
-          'You escaped the portal but never found your flash drive. You\'ll have to retake the IT subject next semester.',
+      endingTitle: AppStrings.scene8Title,
+      endingMessage: AppStrings.scene8Message,
     ),
   ];
 
@@ -153,6 +128,8 @@ class StoryBrain {
   List<String> getChoices() => _scenes[_currentScene].choices;
 
   String getImagePath() => _scenes[_currentScene].imagePath;
+
+  String? getVideoPath() => _scenes[_currentScene].videoPath;
 
   bool isGameOver() => _scenes[_currentScene].isEnding;
 
@@ -164,14 +141,34 @@ class StoryBrain {
 
   int getCurrentSceneIndex() => _currentScene;
 
+  /// Get current scene number (1-based for display)
+  int getCurrentSceneNumber() => _currentScene + 1;
+
+  /// Get total number of unique scenes
+  int getTotalScenes() => _scenes.length;
+
+  /// Get total number of branching paths that can be taken
+  int getTotalPaths() => ProgressConfig.totalPaths;
+
+  /// Get completion percentage based on scenes visited
+  double getCompletionPercentage() {
+    return (_visitedScenes.length / _scenes.length) * 100;
+  }
+
+  /// Get number of scenes visited
+  int getScenesVisited() => _visitedScenes.length;
+
   void nextScene(int choiceIndex) {
     final choices = _scenes[_currentScene].nextScenes;
     if (choiceIndex < choices.length) {
       _currentScene = choices[choiceIndex];
+      _visitedScenes.add(_currentScene);
     }
   }
 
   void restart() {
     _currentScene = 0;
+    _visitedScenes.clear();
+    _visitedScenes.add(0);
   }
 }

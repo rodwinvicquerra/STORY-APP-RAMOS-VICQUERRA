@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:missing_flash_drive/constants/app_constants.dart';
 
 class ChoiceButton extends StatefulWidget {
   final String label;
@@ -26,7 +27,7 @@ class _ChoiceButtonState extends State<ChoiceButton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 120),
+      duration: AppDurations.buttonPressAnimation,
       lowerBound: 0.0,
       upperBound: 1.0,
     );
@@ -62,7 +63,10 @@ class _ChoiceButtonState extends State<ChoiceButton>
     final gradient = _gradients[widget.index % _gradients.length];
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSizes.paddingMedium,
+        vertical: 6.0,
+      ),
       child: GestureDetector(
         onTapDown: _onTapDown,
         onTapUp: _onTapUp,
@@ -96,7 +100,7 @@ class _ChoiceButtonState extends State<ChoiceButton>
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 15,
+                fontSize: AppFontSizes.buttonTextSize,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.3,
               ),

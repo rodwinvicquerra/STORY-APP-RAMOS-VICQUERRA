@@ -110,10 +110,11 @@ class _EndingScreenState extends State<EndingScreen>
   Widget build(BuildContext context) {
     final cfg = _config;
     final screenWidth = MediaQuery.of(context).size.width;
-    final isDesktop = screenWidth >= AppSizes.tabletMinWidth;
-    final isMobile = screenWidth < AppSizes.tabletMinWidth;
+    final isDesktop = screenWidth >= AppSizes.tabletMaxWidth;
+    final isMobile = screenWidth < AppSizes.tabletMaxWidth;
 
     return Scaffold(
+      backgroundColor: AppColors.bgDarkBlack,
       body: Stack(
         children: [
           // Background gradient
@@ -328,10 +329,11 @@ class _EndingScreenState extends State<EndingScreen>
         padding: const EdgeInsets.all(AppSizes.spacingMd),
         child: Text(
           widget.endingMessage,
-          style: GoogleFonts.nunito(
-            color: AppColors.textLight,
+          style: GoogleFonts.poppins(
+            color: AppColors.textPrimary,
             fontSize: AppFontSizes.subtitle,
             height: 1.6,
+            fontWeight: FontWeight.w400,
           ),
           textAlign: TextAlign.center,
         ),
@@ -403,7 +405,7 @@ class _EndingScreenState extends State<EndingScreen>
           },
           child: Text(
             'Back to Main Menu',
-            style: GoogleFonts.nunito(
+            style: GoogleFonts.poppins(
               color: Colors.white54,
               fontSize: AppFontSizes.body,
               decoration: TextDecoration.underline,

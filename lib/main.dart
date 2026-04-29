@@ -30,18 +30,19 @@ class MissingFlashDriveApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.dark,
-          scaffoldBackgroundColor: AppColors.primaryDark,
+          scaffoldBackgroundColor: AppColors.bgDarkBlack,
+          useMaterial3: true,
           colorScheme: const ColorScheme.dark(
             primary: AppColors.accentRed,
-            secondary: AppColors.surfaceMedium,
+            secondary: AppColors.accentBlue,
             surface: AppColors.surfaceLight,
             onPrimary: Colors.white,
             onSecondary: Colors.white,
-            onSurface: AppColors.textLight,
+            onSurface: AppColors.textPrimary,
           ),
           cardTheme: CardThemeData(
             color: AppColors.surfaceLight,
-            elevation: AppSizes.cardElevation,
+            elevation: AppSizes.cardElevationMedium,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppSizes.cardBorderRadius),
             ),
@@ -53,14 +54,16 @@ class MissingFlashDriveApp extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
               ),
+              minimumSize: const Size(double.infinity, AppSizes.buttonMinHeight),
+              elevation: 4,
             ),
           ),
           appBarTheme: const AppBarTheme(
             backgroundColor: AppColors.primaryDarker,
             elevation: 0,
             iconTheme: IconThemeData(color: AppColors.accentBlue),
+            surfaceTintColor: Colors.transparent,
           ),
-          useMaterial3: true,
         ),
         home: const SplashScreen(),
       ),

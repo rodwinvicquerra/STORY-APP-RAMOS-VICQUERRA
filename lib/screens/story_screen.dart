@@ -9,6 +9,8 @@ import '../models/story_brain.dart';
 import '../widgets/choice_button.dart';
 import '../widgets/story_card.dart';
 import '../widgets/progress_tracker.dart';
+import '../widgets/top_nav_bar.dart';
+import '../widgets/primary_button.dart';
 import 'ending_screen.dart';
 import 'settings_screen.dart';
 
@@ -189,42 +191,35 @@ class _StoryScreenState extends State<StoryScreen>
   Widget build(BuildContext context) {
     final choices = _brain.getChoices();
     final screenWidth = MediaQuery.of(context).size.width;
-    final isDesktop = screenWidth >= AppSizes.tabletMinWidth;
-    final isMobile = screenWidth < AppSizes.tabletMinWidth;
+    final isDesktop = screenWidth >= AppSizes.tabletMaxWidth;
+    final isMobile = screenWidth < AppSizes.tabletMaxWidth;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF1A1A2E),
-        elevation: 0,
-        title: Text(
-          AppStrings.appBarTitle,
-          style: GoogleFonts.cinzel(
-            color: AppColors.accentRed,
-            fontSize: AppFontSizes.appBarTitleSize,
-            fontWeight: FontWeight.w700,
-            letterSpacing: AppLetterSpacing.appBarTitle,
-          ),
+      backgroundColor: AppColors.bgDarkBlack,
+      extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(AppSizes.appBarHeight),
+        child: TopNavBar(
+          onHomePressed: () => Navigator.pop(context),
+          onSettingsPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
+            );
+          },
         ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.home_rounded, color: AppColors.accentBlue),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_rounded, color: AppColors.accentBlue),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SettingsScreen()),
-              );
-            },
-          ),
-        ],
       ),
-      body: SafeArea(
-        child: isMobile ? _buildMobileLayout(choices) : _buildDesktopLayout(choices),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.bgDarkNavy, AppColors.bgDarkBlack],
+          ),
+        ),
+        child: SafeArea(
+          child: isMobile ? _buildMobileLayout(choices) : _buildDesktopLayout(choices),
+        ),
       ),
     );
   }
@@ -307,22 +302,22 @@ class _StoryScreenState extends State<StoryScreen>
   Widget _buildStoryContentCard(List<String> choices) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1A2E),
+        color: AppColors.surfaceLight.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(AppSizes.largeCardBorderRadius),
         border: Border.all(
-          color: AppColors.accentRed.withValues(alpha: 0.3),
+          color: AppColors.accentRed.withValues(alpha: 0.2),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.accentRed.withValues(alpha: 0.2),
-            blurRadius: 20,
-            spreadRadius: 2,
+            color: AppColors.accentRed.withValues(alpha: 0.15),
+            blurRadius: 25,
+            spreadRadius: 3,
           ),
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
-            blurRadius: 30,
-            offset: const Offset(0, 10),
+            color: Colors.black.withValues(alpha: 0.4),
+            blurRadius: 35,
+            offset: const Offset(0, 12),
           ),
         ],
       ),
@@ -338,11 +333,11 @@ class _StoryScreenState extends State<StoryScreen>
                   builder: (context, settings, _) {
                     return Text(
                       _brain.getStoryText(),
-                      style: GoogleFonts.nunito(
-                        color: AppColors.textLight,
+                      style: GoogleFonts.poppins(
+                        color: AppColors.textPrimary,
                         fontSize: AppFontSizes.storyTextSize * settings.textSizeMultiplier,
                         height: 1.8,
-                        letterSpacing: AppLetterSpacing.storyText,
+                        fontWeight: FontWeight.w400,
                       ),
                     );
                   },
@@ -359,7 +354,7 @@ class _StoryScreenState extends State<StoryScreen>
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  AppColors.accentRed.withValues(alpha: 0.3),
+                  AppColors.accentRed.withValues(alpha: 0.2),
                   Colors.transparent,
                 ],
               ),
@@ -380,26 +375,26 @@ class _StoryScreenState extends State<StoryScreen>
     return Container(
       height: height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSizes.largeCardBorderRadius),
+        borderRadius: BorderRadius.circular(AppSizes.imageBorderRadius),
         boxShadow: [
           BoxShadow(
             color: AppColors.accentRed.withValues(alpha: 0.25),
-            blurRadius: 25,
-            spreadRadius: 5,
+            blurRadius: 30,
+            spreadRadius: 6,
           ),
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.6),
-            blurRadius: 35,
-            offset: const Offset(0, 15),
+            blurRadius: 40,
+            offset: const Offset(0, 16),
           ),
         ],
       ),
       child: FadeTransition(
         opacity: _imageFadeAnim,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppSizes.largeCardBorderRadius),
+          borderRadius: BorderRadius.circular(AppSizes.imageBorderRadius),
           child: Container(
-            color: AppColors.primaryDarker,
+            color: AppColors.surfaceDark,
             child: _videoReady && _videoController != null
                 ? VideoPlayer(_videoController!)
                 : Image.asset(
@@ -417,8 +412,8 @@ class _StoryScreenState extends State<StoryScreen>
         ? Center(
             child: Text(
               'Tap the back button to continue...',
-              style: GoogleFonts.nunito(
-                color: AppColors.textDimmed.withValues(alpha: 0.6),
+              style: GoogleFonts.poppins(
+                color: AppColors.textMuted,
                 fontSize: AppFontSizes.small,
               ),
             ),

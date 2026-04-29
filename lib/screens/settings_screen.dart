@@ -65,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Text(
                         '${(settings.musicVolume * 100).toStringAsFixed(0)}%',
                         style: GoogleFonts.nunito(
-                          color: AppColors.textDimmed,
+                          color: AppColors.textMuted,
                           fontSize: 12,
                         ),
                       ),
@@ -94,7 +94,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Text(
                         '${(settings.sfxVolume * 100).toStringAsFixed(0)}%',
                         style: GoogleFonts.nunito(
-                          color: AppColors.textDimmed,
+                          color: AppColors.textMuted,
                           fontSize: 12,
                         ),
                       ),
@@ -127,7 +127,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Text(
                         '${(settings.textSizeMultiplier * 100).toStringAsFixed(0)}%',
                         style: GoogleFonts.nunito(
-                          color: AppColors.textDimmed,
+                          color: AppColors.textMuted,
                           fontSize: 12,
                         ),
                       ),
@@ -135,7 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Text(
                         'Lorem ipsum dolor sit amet',
                         style: GoogleFonts.nunito(
-                          color: AppColors.textLight,
+                          color: AppColors.textSecondary,
                           fontSize: 14 * settings.textSizeMultiplier,
                           height: 1.5,
                         ),
@@ -167,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Text(
                       'Start a game to see your playthrough history here.',
                       style: GoogleFonts.nunito(
-                        color: AppColors.textDimmed,
+                        color: AppColors.textMuted,
                         fontSize: 13,
                       ),
                     ),
@@ -252,7 +252,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           content: Text(
                             'This will reset all settings to their default values.',
                             style: GoogleFonts.nunito(
-                              color: AppColors.textLight,
+                              color: AppColors.textSecondary,
                             ),
                           ),
                           actions: [
@@ -354,7 +354,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Text(
                     title,
                     style: GoogleFonts.nunito(
-                      color: AppColors.textLight,
+                      color: AppColors.textSecondary,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
@@ -406,7 +406,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Text(
                       title,
                       style: GoogleFonts.nunito(
-                        color: AppColors.textLight,
+                        color: AppColors.textSecondary,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
@@ -414,7 +414,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Text(
                       subtitle,
                       style: GoogleFonts.nunito(
-                        color: AppColors.textDimmed,
+                        color: AppColors.textMuted,
                         fontSize: 12,
                       ),
                     ),
@@ -426,9 +426,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onChanged: onChanged,
                 activeColor: AppColors.accentRed,
                 activeTrackColor: AppColors.accentRed.withValues(alpha: 0.3),
-                inactiveThumbColor: AppColors.textDimmed,
+                inactiveThumbColor: AppColors.textMuted,
                 inactiveTrackColor:
-                    AppColors.textDimmed.withValues(alpha: 0.2),
+                    AppColors.textMuted.withValues(alpha: 0.2),
               ),
             ],
           ),

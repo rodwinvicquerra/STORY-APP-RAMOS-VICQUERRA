@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:missing_flash_drive/constants/app_constants.dart';
 
 class ChoiceButton extends StatefulWidget {
@@ -55,22 +56,28 @@ class _ChoiceButtonState extends State<ChoiceButton>
 
   void _onTapCancel() => _controller.reverse();
 
-  // Alternate colors for buttons
+  // Modern gradient options for premium feel
   static const List<List<Color>> _gradients = [
-    [Color(0xFFE94560), Color(0xFFB71C3A)],
-    [Color(0xFF0F3460), Color(0xFF1A237E)],
-    [Color(0xFF4A148C), Color(0xFF311B92)],
+    [AppColors.accentRed, AppColors.accentPink],
+    [AppColors.accentPink, AppColors.accentBlue],
+    [AppColors.accentBlue, AppColors.accentRed],
   ];
 
   @override
   Widget build(BuildContext context) {
     final gradient = _gradients[widget.index % _gradients.length];
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSizes.spacingMd,
-        vertical: AppSizes.spacingXs,
-      ),
+    return MouseRegion(
+      onEnter: (_) {
+        if (!_controller.isAnimating) {
+          _controller.forward();
+        }
+      },
+      onExit: (_) {
+        if (_controller.status == AnimationStatus.forward) {
+          _controller.reverse();
+        }
+      },
       child: GestureDetector(
         onTapDown: _onTapDown,
         onTapUp: _onTapUp,
@@ -87,15 +94,20 @@ class _ChoiceButtonState extends State<ChoiceButton>
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
               boxShadow: [
                 BoxShadow(
-                  color: gradient[0].withValues(alpha: 0.45),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+                  color: gradient[0].withValues(alpha: 0.4),
+                  blurRadius: 20,
+                  offset: const Offset(0, 6),
+                ),
+                BoxShadow(
+                  color: gradient[0].withValues(alpha: 0.15),
+                  blurRadius: 40,
+                  spreadRadius: 8,
                 ),
               ],
             ),
@@ -106,11 +118,11 @@ class _ChoiceButtonState extends State<ChoiceButton>
             child: Text(
               widget.label,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: AppFontSizes.buttonTextSize,
                 fontWeight: FontWeight.w600,
-                letterSpacing: 0.3,
+                letterSpacing: 0.5,
               ),
             ),
           ),

@@ -40,7 +40,7 @@ class ProgressTracker extends StatelessWidget {
           Container(
             width: 1,
             height: 40,
-            color: AppColors.textDimmed.withValues(alpha: 0.3),
+            color: AppColors.textMuted.withValues(alpha: 0.3),
           ),
           // Paths Explored
           _ProgressItem(
@@ -52,7 +52,7 @@ class ProgressTracker extends StatelessWidget {
           Container(
             width: 1,
             height: 40,
-            color: AppColors.textDimmed.withValues(alpha: 0.3),
+            color: AppColors.textMuted.withValues(alpha: 0.3),
           ),
           // Completion
           _ProgressItem(
@@ -94,7 +94,7 @@ class _ProgressItem extends StatelessWidget {
             Text(
               label,
               style: GoogleFonts.nunito(
-                color: AppColors.textDimmed,
+                color: AppColors.textMuted,
                 fontSize: AppFontSizes.progressLabelSize,
                 fontWeight: FontWeight.w600,
               ),

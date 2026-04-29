@@ -68,203 +68,264 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.splashBg,
+      backgroundColor: AppColors.bgDarkBlack,
       body: Stack(
         children: [
-          // Background image
-          Positioned.fill(
-            child: Image.asset(
-              AppAssets.splashBgImage,
-              fit: BoxFit.cover,
+          // Premium gradient background
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [AppColors.bgDarkNavy, AppColors.bgDarkBlack],
+              ),
             ),
           ),
-          // Dark overlay gradient
-          Positioned.fill(
+
+          // Radial glow in center
+          Center(
             child: Container(
+              width: 600,
+              height: 600,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
                   colors: [
-                    AppColors.primaryDark.withValues(alpha: 0.8),
-                    AppColors.primaryDark.withValues(alpha: 0.96),
+                    AppColors.accentRed.withValues(alpha: 0.1),
+                    Colors.transparent,
                   ],
                 ),
               ),
             ),
           ),
-          // Content
+
+          // Main content
           SafeArea(
             child: FadeTransition(
               opacity: _fadeAnim,
               child: SlideTransition(
                 position: _slideAnim,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSizes.paddingLarge,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Spacer(flex: 2),
-                      // Flash drive icon
-                      Container(
-                        width: AppSizes.usbIconSize,
-                        height: AppSizes.usbIconSize,
-                        decoration: BoxDecoration(
-                          color: AppColors.accentRed.withValues(alpha: 0.15),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.accentRed,
-                            width: 2,
-                          ),
-                        ),
-                        child: const Icon(
-                          Icons.usb_rounded,
-                          size: AppSizes.iconSize,
-                          color: AppColors.accentRed,
-                        ),
-                      ),
-                      const SizedBox(height: 28),
-                      // Title
-                      Text(
-                        'THE MISSING',
-                        style: GoogleFonts.cinzel(
-                          color: AppColors.accentRed,
-                          fontSize: AppFontSizes.splashTitleSmall,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: AppLetterSpacing.splashTitle,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'FLASH DRIVE',
-                        style: GoogleFonts.cinzel(
-                          color: Colors.white,
-                          fontSize: AppFontSizes.splashTitleLarge,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: AppLetterSpacing.splashSubtitle,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 14),
-                      // Subtitle
-                      Text(
-                        AppStrings.subtitle,
-                        style: GoogleFonts.nunito(
-                          color: AppColors.accentBlue,
-                          fontSize: AppFontSizes.splashSubtitleSize,
-                          letterSpacing: 1.2,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const Spacer(flex: 2),
-                      // Story teaser
-                      Container(
-                        padding: const EdgeInsets.all(AppSizes.paddingMedium),
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(
-                            color: AppColors.surfaceMedium,
-                            width: 1,
-                          ),
-                        ),
-                        child: Text(
-                          '⏰ It\'s 4:30 PM. Your final IT project is due in 30 minutes.\n'
-                          'You reach into your bag... and your flash drive is GONE.\n\n'
-                          'Every choice you make leads to a different fate.',
-                          style: GoogleFonts.nunito(
-                            color: const Color(0xFFB0BEC5),
-                            fontSize: 13.5,
-                            height: 1.6,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      const Spacer(flex: 1),
-                      // START button with pulse animation
-                      ScaleTransition(
-                        scale: _pulseAnim,
-                        child: GestureDetector(
-                          onTap: () {
-                            final settings = context.read<AppSettings>();
-                            Navigator.pushReplacement(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (_, _, _) =>
-                                    const StoryScreen(),
-                                transitionsBuilder: (_, anim, _, child) =>
-                                    FadeTransition(
-                                  opacity: anim,
-                                  child: child,
-                                ),
-                                transitionDuration: settings.skipAnimations
-                                    ? Duration.zero
-                                    : const Duration(milliseconds: 600),
-                              ),
-                            );
-                          },
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Logo with glowing circle
+                        ScaleTransition(
+                          scale: _pulseAnim,
                           child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            width: 140,
+                            height: 140,
                             decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFFE94560), Color(0xFFB71C3A)],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
+                              shape: BoxShape.circle,
+                              color: AppColors.accentRed.withValues(alpha: 0.1),
+                              border: Border.all(
+                                color: AppColors.accentRed,
+                                width: 2.5,
                               ),
-                              borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.accentRed
-                                      .withValues(alpha: 0.5),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 6),
+                                  color: AppColors.accentRed.withValues(alpha: 0.4),
+                                  blurRadius: 40,
+                                  spreadRadius: 15,
+                                ),
+                                BoxShadow(
+                                  color: AppColors.accentRed.withValues(alpha: 0.15),
+                                  blurRadius: 80,
+                                  spreadRadius: 30,
                                 ),
                               ],
                             ),
-                            child: Text(
-                              '▶  START ADVENTURE',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.cinzel(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 2,
+                            child: const Icon(
+                              Icons.usb_rounded,
+                              size: 70,
+                              color: AppColors.accentRed,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 56),
+
+                        // Main title with spaced letters
+                        Text(
+                          'THE MISSING',
+                          style: GoogleFonts.poppins(
+                            color: AppColors.accentRed,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 3.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Text(
+                          'FLASH DRIVE',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: AppFontSizes.extraLarge,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 4,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // Subtitle
+                        Text(
+                          'An Adventure in Choices',
+                          style: GoogleFonts.poppins(
+                            color: AppColors.accentBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1.2,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+
+                        const SizedBox(height: 48),
+
+                        // Story preview card (glass style)
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width - 48,
+                          ),
+                          padding: const EdgeInsets.all(AppSizes.spacingMd),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceLight.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(AppSizes.cardBorderRadius),
+                            border: Border.all(
+                              color: AppColors.accentBlue.withValues(alpha: 0.2),
+                              width: 1,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.3),
+                                blurRadius: 20,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            '⏰ It\'s 4:30 PM. Your final IT project is due in 30 minutes.\n'
+                            'You reach into your bag... and your flash drive is GONE.\n\n'
+                            'Every choice you make leads to a different fate.',
+                            style: GoogleFonts.poppins(
+                              color: AppColors.textSecondary,
+                              fontSize: 14,
+                              height: 1.7,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+
+                        const SizedBox(height: 48),
+
+                        // START ADVENTURE button
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width - 48,
+                          ),
+                          child: ScaleTransition(
+                            scale: _pulseAnim,
+                            child: GestureDetector(
+                              onTap: () {
+                                final settings = context.read<AppSettings>();
+                                Navigator.pushReplacement(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (_, _, _) =>
+                                        const StoryScreen(),
+                                    transitionsBuilder: (_, anim, _, child) =>
+                                        FadeTransition(
+                                      opacity: anim,
+                                      child: child,
+                                    ),
+                                    transitionDuration: settings.skipAnimations
+                                        ? Duration.zero
+                                        : const Duration(milliseconds: 600),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                constraints: const BoxConstraints(
+                                  minHeight: AppSizes.buttonMinHeight,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSizes.buttonPadding,
+                                  vertical: AppSizes.spacingSm,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      AppColors.accentRed,
+                                      AppColors.accentPink,
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    AppSizes.buttonBorderRadius,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.accentRed.withValues(alpha: 0.5),
+                                      blurRadius: 30,
+                                      offset: const Offset(0, 10),
+                                    ),
+                                    BoxShadow(
+                                      color: AppColors.accentRed.withValues(alpha: 0.15),
+                                      blurRadius: 60,
+                                      spreadRadius: 15,
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '▶  START ADVENTURE',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const Spacer(flex: 1),
-                      // Settings button
-                      TextButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const SettingsScreen(),
+
+                        const SizedBox(height: 32),
+
+                        // Settings button
+                        TextButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const SettingsScreen(),
+                              ),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.settings_rounded,
+                            size: 20,
+                            color: AppColors.accentBlue,
+                          ),
+                          label: Text(
+                            'Settings',
+                            style: GoogleFonts.poppins(
+                              color: AppColors.accentBlue,
+                              fontSize: 14,
                             ),
-                          );
-                        },
-                        icon: const Icon(Icons.settings_rounded),
-                        label: const Text('Settings'),
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppColors.accentBlue,
+                          ),
                         ),
-                      ),
-                      // AI disclaimer
-                      Text(
-                        '🤖 Scene images are AI-generated',
-                        style: GoogleFonts.nunito(
-                          color: AppColors.textDimmed.withValues(alpha: 0.6),
-                          fontSize: 11,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 
-// Colors
+// Colors - Modern Premium Dark Theme
 class AppColors {
+  // Gradient background
+  static const Color bgDarkNavy = Color(0xFF0B0F1A);
+  static const Color bgDarkBlack = Color(0xFF05070D);
+  
   // Primary colors
-  static const Color primaryDark = Color(0xFF1A1A2E);
-  static const Color primaryDarker = Color(0xFF0F0F23);
-  static const Color accentRed = Color(0xFFE94560);
-  static const Color accentBlue = Color(0xFF90CAF9);
-  static const Color surfaceLight = Color(0xFF16213E);
-  static const Color surfaceMedium = Color(0xFF0F3460);
-  static const Color textLight = Color(0xFFE0E0E0);
-  static const Color textDimmed = Color(0xFF90CAF9);
-  static const Color splashBg = Color(0xFF12122A);
-
+  static const Color primaryDark = Color(0xFF0F1419);
+  static const Color primaryDarker = Color(0xFF0A0D15);
+  static const Color accentRed = Color(0xFFFF4D6D);
+  static const Color accentPink = Color(0xFFFF6B9D);
+  static const Color accentBlue = Color(0xFF4D9EFF);
+  static const Color accentBlueLight = Color(0xFF6DB3FF);
+  
+  // Surfaces
+  static const Color surfaceLight = Color(0xFF1A1F2E);
+  static const Color surfaceMedium = Color(0xFF141820);
+  static const Color surfaceDark = Color(0xFF0F1419);
+  
+  // Text colors
+  static const Color textPrimary = Colors.white;
+  static const Color textSecondary = Color(0xFFB8C5D6);
+  static const Color textMuted = Color(0xFF8892A8);
+  
   // Ending colors
   static const Color endingGood = Color(0xFF4CAF50);
   static const Color endingGoodLight = Color(0xFF81C784);
@@ -36,6 +47,7 @@ class AppColors {
 
 // Animation Durations
 class AppDurations {
+  // Existing animations
   static const Duration imageFadeAnimation = Duration(milliseconds: 500);
   static const Duration splashFadeAnimation = Duration(milliseconds: 1200);
   static const Duration splashSlideAnimation = Duration(milliseconds: 900);
@@ -50,10 +62,16 @@ class AppDurations {
   static const Duration videoFadeAnimation = Duration(milliseconds: 400);
   
   // UI Feedback durations
-  static const Duration hoverAnimationDuration = Duration(milliseconds: 200);
+  static const Duration hoverAnimationDuration = Duration(milliseconds: 250);
   static const Duration toastDuration = Duration(milliseconds: 2000);
   static const Duration skeletonPulseDuration = Duration(milliseconds: 1500);
   static const Duration confettiDuration = Duration(milliseconds: 3000);
+  
+  // Modern interactive durations
+  static const Duration buttonHoverScale = Duration(milliseconds: 200);
+  static const Duration cardFadeIn = Duration(milliseconds: 300);
+  static const Duration imageZoom = Duration(milliseconds: 250);
+  static const Duration pageTransition = Duration(milliseconds: 400);
 }
 
 // Asset Paths
@@ -163,15 +181,17 @@ class AppStrings {
 // Sizing and Spacing
 class AppSizes {
   // Border radius
-  static const double buttonBorderRadius = 12.0;
-  static const double cardBorderRadius = 16.0;
-  static const double largeCardBorderRadius = 18.0;
+  static const double buttonBorderRadius = 16.0;
+  static const double cardBorderRadius = 20.0;
+  static const double largeCardBorderRadius = 24.0;
+  static const double imageBorderRadius = 20.0;
   
   // Spacing scale (8px, 16px, 24px, 32px)
   static const double spacingXs = 8.0;
   static const double spacingSm = 16.0;
   static const double spacingMd = 24.0;
   static const double spacingLg = 32.0;
+  static const double spacingXl = 48.0;
   
   // Legacy padding names (mapped to new scale)
   static const double paddingSmall = 8.0;
@@ -179,13 +199,14 @@ class AppSizes {
   static const double paddingLarge = 24.0;
   
   // Heights and sizes
-  static const double appBarHeight = 56.0;
-  static const double buttonMinHeight = 48.0;
-  static const double buttonPadding = 16.0;
+  static const double appBarHeight = 64.0;
+  static const double buttonMinHeight = 52.0;
+  static const double buttonPadding = 20.0;
   
   // Icon sizes
   static const double iconSize = 48.0;
   static const double smallIconSize = 24.0;
+  static const double largeIconSize = 64.0;
   static const double usbIconSize = 90.0;
   static const double endingIconSize = 80.0;
   
@@ -198,6 +219,7 @@ class AppSizes {
   // Responsive breakpoints
   static const double mobileMaxWidth = 600.0;
   static const double tabletMinWidth = 600.0;
+  static const double tabletMaxWidth = 800.0;
   static const double desktopMinWidth = 1200.0;
 }
 
@@ -216,22 +238,24 @@ class AppLetterSpacing {
   static const double storyText = 0.2;
 }
 
-// Font Sizes (Typography Scale)
+// Font Sizes (Typography Scale - Modern Premium)
 class AppFontSizes {
-  // Typography scale (12, 14, 16, 20, 28)
+  // Modern Typography Scale (12, 14, 16, 20, 28, 32-40)
   static const double small = 12.0;
   static const double body = 14.0;
   static const double subtitle = 16.0;
   static const double title = 20.0;
   static const double heading = 28.0;
+  static const double largeHeading = 32.0;
+  static const double extraLarge = 40.0;
   
   // Legacy names (mapped to scale)
-  static const double appBarTitleSize = 14.0;
-  static const double splashTitleSmall = 26.0;
-  static const double splashTitleLarge = 34.0;
-  static const double splashSubtitleSize = 16.0;
-  static const double storyTextSize = 15.5;
-  static const double buttonTextSize = 14.0;
+  static const double appBarTitleSize = 16.0;
+  static const double splashTitleSmall = 32.0;
+  static const double splashTitleLarge = 40.0;
+  static const double splashSubtitleSize = 18.0;
+  static const double storyTextSize = 16.0;
+  static const double buttonTextSize = 15.0;
   static const double progressLabelSize = 12.0;
   static const double progressValueSize = 18.0;
 }

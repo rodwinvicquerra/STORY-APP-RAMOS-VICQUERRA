@@ -30,7 +30,7 @@ class StoryCard extends StatelessWidget {
                 child: Text(
                   text,
                   style: GoogleFonts.nunito(
-                    color: AppColors.textLight,
+                    color: AppColors.textPrimary,
                     fontSize: AppFontSizes.storyTextSize * settings.textSizeMultiplier,
                     height: 1.65,
                     letterSpacing: AppLetterSpacing.storyText,

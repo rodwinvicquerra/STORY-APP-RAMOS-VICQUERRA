@@ -225,8 +225,8 @@ class AppSizes {
 
 // Progress Tracking
 class ProgressConfig {
-  static const int totalScenes = 9;
-  static const int totalPaths = 8; // Unique paths in the story tree
+  static const int totalScenes = 15; // Expanded from 9
+  static const int totalPaths = 12; // Unique paths in the expanded story tree
   static const double completionPercentagePerScene = 100.0 / totalScenes;
 }
 
@@ -240,22 +240,36 @@ class AppLetterSpacing {
 
 // Font Sizes (Typography Scale - Modern Premium)
 class AppFontSizes {
-  // Modern Typography Scale (12, 14, 16, 20, 28, 32-40)
-  static const double small = 12.0;
-  static const double body = 14.0;
-  static const double subtitle = 16.0;
-  static const double title = 20.0;
-  static const double heading = 28.0;
-  static const double largeHeading = 32.0;
-  static const double extraLarge = 40.0;
+  // Title/Heading
+  static const double titleLarge = 42.0;
+  static const double title = 38.0;
   
-  // Legacy names (mapped to scale)
-  static const double appBarTitleSize = 16.0;
-  static const double splashTitleSmall = 32.0;
-  static const double splashTitleLarge = 40.0;
+  // Scene/Section titles
+  static const double sceneTitleLarge = 28.0;
+  static const double sceneTitle = 24.0;
+  static const double heading = 28.0; // Alias for sceneTitleLarge
+  
+  // Body text (IMPORTANT: increased from current)
+  static const double bodyLarge = 20.0;
+  static const double body = 18.0;
+  static const double bodySmall = 16.0;
+  
+  // Buttons
+  static const double button = 18.0;
+  static const double buttonSmall = 16.0;
+  
+  // Secondary
+  static const double subtitle = 16.0;
+  static const double caption = 14.0;
+  static const double small = 12.0;
+  
+  // Legacy names (mapped to new scale)
+  static const double appBarTitleSize = 18.0;
+  static const double splashTitleSmall = 38.0;
+  static const double splashTitleLarge = 42.0;
   static const double splashSubtitleSize = 18.0;
-  static const double storyTextSize = 16.0;
-  static const double buttonTextSize = 15.0;
-  static const double progressLabelSize = 12.0;
+  static const double storyTextSize = 20.0;
+  static const double buttonTextSize = 18.0;
+  static const double progressLabelSize = 14.0;
   static const double progressValueSize = 18.0;
 }

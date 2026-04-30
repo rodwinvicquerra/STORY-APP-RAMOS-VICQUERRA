@@ -229,26 +229,29 @@ class _StoryScreenState extends State<StoryScreen>
       children: [
         // Progress Tracker
         Padding(
-          padding: const EdgeInsets.all(AppSizes.spacingMd),
+          padding: const EdgeInsets.all(AppSizes.spacingLg),
           child: ProgressTracker(brain: _brain),
         ),
 
         // Scene Image/Video - Mobile
         Padding(
           padding: const EdgeInsets.fromLTRB(
-            AppSizes.spacingMd,
-            AppSizes.spacingXs,
-            AppSizes.spacingMd,
-            AppSizes.spacingMd,
+            AppSizes.spacingLg,
+            AppSizes.spacingSm,
+            AppSizes.spacingLg,
+            AppSizes.spacingLg,
           ),
-          child: _buildImageCard(height: 240),
+          child: _buildImageCard(height: 280),
         ),
 
         // Story Text
         Expanded(
           flex: 3,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacingMd),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSizes.spacingLg,
+              vertical: AppSizes.spacingMd,
+            ),
             child: StoryCard(text: _brain.getStoryText()),
           ),
         ),
@@ -414,18 +417,18 @@ class _StoryScreenState extends State<StoryScreen>
               'Tap the back button to continue...',
               style: GoogleFonts.poppins(
                 color: AppColors.textMuted,
-                fontSize: AppFontSizes.small,
+                fontSize: AppFontSizes.body,
               ),
             ),
           )
         : ListView.builder(
             padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.spacingMd,
-              vertical: AppSizes.spacingXs,
+              horizontal: AppSizes.spacingLg,
+              vertical: AppSizes.spacingMd,
             ),
             itemCount: choices.length,
             itemBuilder: (context, i) => Padding(
-              padding: const EdgeInsets.only(bottom: AppSizes.spacingXs),
+              padding: const EdgeInsets.only(bottom: AppSizes.spacingMd),
               child: ChoiceButton(
                 label: choices[i],
                 index: i,

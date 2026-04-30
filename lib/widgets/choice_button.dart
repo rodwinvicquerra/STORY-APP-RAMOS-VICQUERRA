@@ -90,37 +90,37 @@ class _ChoiceButtonState extends State<ChoiceButton>
           ),
           child: Container(
             width: double.infinity,
-            constraints: const BoxConstraints(minHeight: AppSizes.buttonMinHeight),
+            constraints: const BoxConstraints(minHeight: 64),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(AppSizes.buttonBorderRadius),
+              borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: gradient[0].withValues(alpha: 0.4),
+                  color: gradient[0].withOpacity(0.4),
                   blurRadius: 20,
-                  offset: const Offset(0, 6),
+                  offset: const Offset(0, 8),
                 ),
                 BoxShadow(
-                  color: gradient[0].withValues(alpha: 0.15),
+                  color: gradient[0].withOpacity(0.15),
                   blurRadius: 40,
                   spreadRadius: 8,
                 ),
               ],
             ),
             padding: const EdgeInsets.symmetric(
-              vertical: AppSizes.buttonPadding,
-              horizontal: AppSizes.spacingSm,
+              vertical: 18,
+              horizontal: 24,
             ),
             child: Text(
               widget.label,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 color: Colors.white,
-                fontSize: AppFontSizes.buttonTextSize,
+                fontSize: AppFontSizes.button,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.5,
               ),

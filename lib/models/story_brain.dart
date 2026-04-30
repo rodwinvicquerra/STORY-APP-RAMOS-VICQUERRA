@@ -11,42 +11,94 @@ class StoryBrain {
     Scene(
       storyText: AppStrings.scene0Text,
       imagePath: AppAssets.scene0Image,
-      choices: [AppStrings.scene0Choice1, AppStrings.scene0Choice2],
-      nextScenes: [1, 2],
+      choices: [AppStrings.scene0Choice1, AppStrings.scene0Choice2, 'Go to the Classroom'],
+      nextScenes: [1, 2, 3],
     ),
 
     // Scene 1 — Library (Decision Point 2)
     Scene(
       storyText: AppStrings.scene1Text,
       imagePath: AppAssets.scene1Image,
-      choices: [AppStrings.scene1Choice1, AppStrings.scene1Choice2],
-      nextScenes: [3, 4],
+      choices: [AppStrings.scene1Choice1, 'Ask the librarian for help', AppStrings.scene1Choice2],
+      nextScenes: [9, 4, 5],
     ),
 
     // Scene 2 — Cafeteria (Decision Point 3)
     Scene(
       storyText: AppStrings.scene2Text,
       imagePath: AppAssets.scene2Image,
-      choices: [AppStrings.scene2Choice1, AppStrings.scene2Choice2],
-      nextScenes: [5, 6],
+      choices: [AppStrings.scene2Choice1, 'Look around the cafeteria', AppStrings.scene2Choice2],
+      nextScenes: [7, 9, 10],
     ),
 
-    // Scene 3 — Dark Hallway (Decision Point 4)
+    // Scene 3 — Classroom (NEW)
+    Scene(
+      storyText:
+          'You head back to your classroom. It\'s nearly empty now.\n\n'
+          'You check your desk, but it\'s not there. The janitor is cleaning nearby.\n\n'
+          'What will you do?',
+      imagePath: AppAssets.scene3Image,
+      choices: ['Check your locker', 'Ask the janitor', 'Search the trash bins'],
+      nextScenes: [10, 4, 11],
+    ),
+
+    // Scene 4 — Librarian (NEW)
+    Scene(
+      storyText:
+          'The librarian smiles kindly. "Lost something? Let me check the lost and found."\n\n'
+          'She opens a drawer and shows you several items.\n\n'
+          'But time is running out... 20 minutes left!',
+      imagePath: AppAssets.scene4Image,
+      choices: ['Search thoroughly through items', 'Give up and try another location'],
+      nextScenes: [9, 11],
+    ),
+
+    // Scene 5 — Dark Hallway
     Scene(
       storyText: AppStrings.scene3Text,
       imagePath: AppAssets.scene3Image,
-      choices: [AppStrings.scene3Choice1, AppStrings.scene3Choice2],
-      nextScenes: [7, 8],
+      choices: [AppStrings.scene3Choice1, AppStrings.scene3Choice2, 'Look around carefully'],
+      nextScenes: [12, 13, 11],
     ),
 
-    // Scene 4 — Found under table (Ending: Good 1)
+    // Scene 6 — Portal World (EXPANDED)
     Scene(
       storyText:
-          '🎉 You crawl under the table and — THERE IT IS!\n\n'
+          'You step through the portal and find yourself in a strange realm.\n\n'
+          'Glowing creatures surround you. One speaks: "To return, you must solve our riddle."\n\n'
+          'But your flash drive is still missing...',
+      imagePath: AppAssets.scene6Image,
+      choices: ['Try to solve the riddle', 'Fight your way through'],
+      nextScenes: [12, 13],
+    ),
+
+    // Scene 7 — Mark Confession (EXPANDED)
+    Scene(
+      storyText: AppStrings.scene2Text +
+          '\n\nMark waves at you. "Hey! I was looking for you!"\n\n'
+          'He reaches into his bag...',
+      imagePath: AppAssets.scene5Image,
+      choices: ['Wait eagerly', 'Ask him directly'],
+      nextScenes: [14, 14],
+    ),
+
+    // Scene 8 — Time Pressure (NEW)
+    Scene(
+      storyText:
+          'You check your phone. Only 5 minutes left until the deadline!\n\n'
+          'Your heart is pounding. You need to find it NOW.',
+      imagePath: AppAssets.scene8Image,
+      choices: ['Sprint to the lab to submit something', 'Make one last desperate search'],
+      nextScenes: [11, 11],
+    ),
+
+    // Scene 9 — Found under table (Ending: Good 1)
+    Scene(
+      storyText:
+          'You crawl under the table and there it is!\n\n'
           'Your flash drive was stuck between the chair leg and the floor!\n\n'
-          'You grab it, shove it in your laptop, and SPRINT to your professor\'s room.\n\n'
-          '"Submitted with 3 minutes to spare!" your professor smiles.\n\n'
-          'You did it! You saved your grade! 🏆',
+          'You grab it, rush to your laptop, and submit your project with 3 minutes to spare.\n\n'
+          'Success!',
       imagePath: AppAssets.scene4Image,
       isEnding: true,
       endingType: 'good',
@@ -54,33 +106,28 @@ class StoryBrain {
       endingMessage: AppStrings.scene4Message,
     ),
 
-    // Scene 5 — Mark returns it (Ending: Good 2)
+    // Scene 10 — Found in classroom (NEW Good Ending)
     Scene(
       storyText:
-          '😅 Mark looks embarrassed.\n\n'
-          '"Oh... about that," he says, reaching into his bag.\n'
-          '"I accidentally grabbed it yesterday when we were packing up. Sorry!"\n\n'
-          'He hands you the flash drive.\n\n'
-          'You forgive him immediately, plug it into your laptop, and submit with\n'
-          '5 minutes to spare!\n\n'
-          '"We\'re still best friends," you tell him. 🤝',
-      imagePath: AppAssets.scene5Image,
+          'You find it in the lost and found near the classroom office!\n\n'
+          'A classmate had turned it in this morning.\n\n'
+          'You dash to the lab and submit with 8 minutes to spare!\n\n'
+          'What a relief!',
+      imagePath: AppAssets.scene4Image,
       isEnding: true,
       endingType: 'good',
-      endingTitle: AppStrings.scene5Title,
-      endingMessage: AppStrings.scene5Message,
+      endingTitle: 'Found It!',
+      endingMessage: 'You recovered your flash drive and submitted on time.',
     ),
 
-    // Scene 6 — Wasted time (Ending: Bad)
+    // Scene 11 — Wasted time (Ending: Bad)
     Scene(
       storyText:
-          '🍚 The arroz caldo is warm and delicious...\n\n'
-          'You lose track of time eating and chatting with strangers.\n\n'
-          'You check your phone — 5:01 PM. 😱\n\n'
+          'You spend too much time searching. When you finally check your phone:\n\n'
+          '5:01 PM. The deadline has passed.\n\n'
           '"DEADLINE MISSED!" flashes on the school portal.\n\n'
-          'Your professor shakes his head sadly.\n'
-          '"You\'ll have to retake the subject next semester."\n\n'
-          'The snack was NOT worth it. 💀',
+          'Your professor replies to your email: "You\'ll have to retake the subject next semester."\n\n'
+          'This won\'t end well...',
       imagePath: AppAssets.scene6Image,
       isEnding: true,
       endingType: 'bad',
@@ -88,16 +135,13 @@ class StoryBrain {
       endingMessage: AppStrings.scene6Message,
     ),
 
-    // Scene 7 — Enter portal (Ending: Weird/Bad)
+    // Scene 12 — Portal trap (Ending: Weird)
     Scene(
       storyText:
-          '⚡ You take a deep breath and STEP INTO THE PORTAL!\n\n'
-          'FLASH! You\'re now wearing armor in a magical kingdom.\n'
-          'A fairy appears: "Welcome, Chosen One! You must defeat the Dragon of Deadlines!"\n\n'
-          'You look at your hands — you\'re holding a sword, not a laptop.\n\n'
-          '"Wait, what about my IT project?!"\n\n'
-          'The fairy shrugs. "What\'s an IT project?"\n\n'
-          'You failed IT class but became a legendary warrior. ⚔️',
+          'You step into the portal and find yourself trapped in a magical realm!\n\n'
+          'The creatures transform you into a legendary warrior.\n\n'
+          'You\'re powerful here, but you failed IT class back home...\n\n'
+          'Was it worth it?',
       imagePath: AppAssets.scene7Image,
       isEnding: true,
       endingType: 'weird',
@@ -105,21 +149,33 @@ class StoryBrain {
       endingMessage: AppStrings.scene7Message,
     ),
 
-    // Scene 8 — Run away (Ending: Neutral)
+    // Scene 13 — Escape the portal (Ending: Neutral)
     Scene(
       storyText:
-          '😤 Nope. Portals are NOT part of your plans today.\n\n'
-          'You sprint back to the library entrance, heart pounding.\n\n'
-          'You search everywhere — every classroom, every hallway — but the flash drive is gone.\n\n'
-          'With no other option, you email your professor:\n'
-          '"Sir, I lost my flash drive. I\'m very sorry."\n\n'
-          'He replies: "Okay. Retake the subject next term."\n\n'
-          'At least you\'re still in this dimension. 🤷',
+          'You escape the portal and run back to the school.\n\n'
+          'But you never found your flash drive.\n\n'
+          'Your professor is understanding: "Next semester. You can retake it."\n\n'
+          'At least you\'re back in the real world...',
       imagePath: AppAssets.scene8Image,
       isEnding: true,
       endingType: 'neutral',
       endingTitle: AppStrings.scene8Title,
       endingMessage: AppStrings.scene8Message,
+    ),
+
+    // Scene 14 — Mark saves the day (Ending: Good 2)
+    Scene(
+      storyText:
+          'Mark pulls out your flash drive from his bag.\n\n'
+          '"I\'m so sorry! I accidentally grabbed it when we were packing up yesterday."\n\n'
+          'You forgive him immediately and sprint to the lab.\n\n'
+          'You submit with 5 minutes to spare!\n\n'
+          '"Thanks, buddy!" you tell him.',
+      imagePath: AppAssets.scene5Image,
+      isEnding: true,
+      endingType: 'good',
+      endingTitle: AppStrings.scene5Title,
+      endingMessage: AppStrings.scene5Message,
     ),
   ];
 

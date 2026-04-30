@@ -13,28 +13,24 @@ class StoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppSettings>(
       builder: (context, settings, _) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.spacingMd,
-            vertical: AppSizes.spacingXs,
+        return Card(
+          color: AppColors.surfaceLight.withOpacity(0.05),
+          elevation: AppSizes.cardElevationMedium,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.white.withOpacity(0.1), width: 1),
+            borderRadius: BorderRadius.circular(AppSizes.cardBorderRadius),
           ),
-          child: Card(
-            color: AppColors.surfaceLight,
-            elevation: AppSizes.cardElevationMedium,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSizes.cardBorderRadius),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(AppSizes.spacingMd),
-              child: SingleChildScrollView(
-                child: Text(
-                  text,
-                  style: GoogleFonts.nunito(
-                    color: AppColors.textPrimary,
-                    fontSize: AppFontSizes.storyTextSize * settings.textSizeMultiplier,
-                    height: 1.65,
-                    letterSpacing: AppLetterSpacing.storyText,
-                  ),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSizes.spacingLg),
+            child: SingleChildScrollView(
+              child: Text(
+                text,
+                style: GoogleFonts.poppins(
+                  color: AppColors.textPrimary,
+                  fontSize: AppFontSizes.bodyLarge * settings.textSizeMultiplier,
+                  height: 1.7,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.3,
                 ),
               ),
             ),

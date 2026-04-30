@@ -151,7 +151,7 @@ class _SplashScreenState extends State<SplashScreen>
                           'THE MISSING',
                           style: GoogleFonts.poppins(
                             color: AppColors.accentRed,
-                            fontSize: 32,
+                            fontSize: AppFontSizes.title,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 3.5,
                           ),
@@ -164,70 +164,72 @@ class _SplashScreenState extends State<SplashScreen>
                           'FLASH DRIVE',
                           style: GoogleFonts.poppins(
                             color: Colors.white,
-                            fontSize: AppFontSizes.extraLarge,
+                            fontSize: AppFontSizes.titleLarge,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 4,
                           ),
                           textAlign: TextAlign.center,
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 20),
 
                         // Subtitle
                         Text(
                           'An Adventure in Choices',
                           style: GoogleFonts.poppins(
                             color: AppColors.accentBlue,
-                            fontSize: 18,
+                            fontSize: AppFontSizes.body,
                             fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                           ),
                           textAlign: TextAlign.center,
                         ),
 
-                        const SizedBox(height: 48),
+                        const SizedBox(height: 56),
 
                         // Story preview card (glass style)
                         Container(
                           constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width - 48,
+                            maxWidth: MediaQuery.of(context).size.width - 64,
                           ),
-                          padding: const EdgeInsets.all(AppSizes.spacingMd),
+                          padding: const EdgeInsets.all(AppSizes.spacingLg),
                           decoration: BoxDecoration(
-                            color: AppColors.surfaceLight.withValues(alpha: 0.1),
+                            color: AppColors.surfaceLight.withOpacity(0.05),
                             borderRadius: BorderRadius.circular(AppSizes.cardBorderRadius),
                             border: Border.all(
-                              color: AppColors.accentBlue.withValues(alpha: 0.2),
+                              color: AppColors.accentBlue.withOpacity(0.2),
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.3),
+                                color: Colors.black.withOpacity(0.3),
                                 blurRadius: 20,
                                 offset: const Offset(0, 8),
                               ),
                             ],
                           ),
                           child: Text(
-                            '⏰ It\'s 4:30 PM. Your final IT project is due in 30 minutes.\n'
-                            'You reach into your bag... and your flash drive is GONE.\n\n'
-                            'Every choice you make leads to a different fate.',
+                            'It\'s 4:30 PM. Your final IT project is due in 30 minutes. '
+                            'You reach into your bag and realize your flash drive is GONE. '
+                            'Every choice you make will lead to a different fate. '
+                            'Can you find it in time?',
                             style: GoogleFonts.poppins(
                               color: AppColors.textSecondary,
-                              fontSize: 14,
-                              height: 1.7,
+                              fontSize: AppFontSizes.body,
+                              height: 1.8,
                               fontWeight: FontWeight.w400,
+                              letterSpacing: 0.3,
                             ),
                             textAlign: TextAlign.center,
                           ),
                         ),
 
-                        const SizedBox(height: 48),
+                        const SizedBox(height: 56),
 
                         // START ADVENTURE button
                         Container(
                           constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width - 48,
+                            maxWidth: MediaQuery.of(context).size.width - 64,
                           ),
                           child: ScaleTransition(
                             scale: _pulseAnim,
@@ -253,11 +255,11 @@ class _SplashScreenState extends State<SplashScreen>
                               child: Container(
                                 width: double.infinity,
                                 constraints: const BoxConstraints(
-                                  minHeight: AppSizes.buttonMinHeight,
+                                  minHeight: 64,
                                 ),
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: AppSizes.buttonPadding,
-                                  vertical: AppSizes.spacingSm,
+                                  horizontal: 32,
+                                  vertical: 20,
                                 ),
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
@@ -268,28 +270,26 @@ class _SplashScreenState extends State<SplashScreen>
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
-                                  borderRadius: BorderRadius.circular(
-                                    AppSizes.buttonBorderRadius,
-                                  ),
+                                  borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.accentRed.withValues(alpha: 0.5),
+                                      color: AppColors.accentRed.withOpacity(0.5),
                                       blurRadius: 30,
-                                      offset: const Offset(0, 10),
+                                      offset: const Offset(0, 12),
                                     ),
                                     BoxShadow(
-                                      color: AppColors.accentRed.withValues(alpha: 0.15),
+                                      color: AppColors.accentRed.withOpacity(0.15),
                                       blurRadius: 60,
                                       spreadRadius: 15,
                                     ),
                                   ],
                                 ),
                                 child: Text(
-                                  '▶  START ADVENTURE',
+                                  'Start Adventure',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
-                                    fontSize: 16,
+                                    fontSize: AppFontSizes.button,
                                     fontWeight: FontWeight.w700,
                                     letterSpacing: 1.5,
                                   ),

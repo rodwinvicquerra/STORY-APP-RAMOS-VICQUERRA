@@ -182,7 +182,7 @@ class _EndingScreenState extends State<EndingScreen>
                           boxShadow: [
                             BoxShadow(
                               color: cfg.accent.withValues(alpha: 0.4),
-                              blurRadius: 30,
+                              blurRadius: 24,
                               spreadRadius: 4,
                             ),
                           ],

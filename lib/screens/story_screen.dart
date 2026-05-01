@@ -38,6 +38,7 @@ class _StoryScreenState extends State<StoryScreen>
 
   Future<void> _startBgMusic() async {
     await _bgPlayer.setReleaseMode(ReleaseMode.loop);
+    await _bgPlayer.stop();
     // play bg music
     await _bgPlayer.play(AssetSource('audio/bg_music.mp3'));
   }

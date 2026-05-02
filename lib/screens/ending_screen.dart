@@ -217,7 +217,7 @@ class _EndingScreenState extends State<EndingScreen>
                     Card(
                       color: Colors.black.withValues(alpha: 0.3),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(14),
                         side: BorderSide(
                           color: cfg.accent.withValues(alpha: 0.3),
                           width: 1,
@@ -254,7 +254,7 @@ class _EndingScreenState extends State<EndingScreen>
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                             ),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(14),
                             boxShadow: [
                               BoxShadow(
                                 color: cfg.accent.withValues(alpha: 0.5),

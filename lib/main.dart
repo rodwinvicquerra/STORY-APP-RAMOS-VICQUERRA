@@ -21,7 +21,7 @@ class MissingFlashDriveApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'The Missing Flash Drive',
+      title: 'The Missing Flash Drive', // final
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
